@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L'Oréal Beauty Assistant</title>
+    <meta
+      name="description"
+      content="L'Oréal Beauty Assistant — Because You're Worth It. Discover skincare, makeup, haircare, hair color, fragrances, and personalized beauty routines."
+    />
+    <meta property="og:title" content="L'Oréal Beauty Assistant" />
+    <meta
+      property="og:description"
+      content="L'Oréal Beauty Assistant — Because You're Worth It. Discover skincare, makeup, haircare, hair color, fragrances, and personalized beauty routines."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Luxury editorial serif + clean modern sans-serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <!-- Top Brand Navigation Bar -->
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="#" class="brand-link" aria-label="L'Oréal Beauty Assistant Home">
+            <img
+              src="/assets/aistudio/loreal-logo_68f841fc.png"
+              alt="L'Oréal"
+              class="brand-logo"
+            />
+          </a>
+
+          <nav class="header-nav" aria-label="Product categories">
+            <button
+              type="button"
+              class="nav-link"
+              data-prompt="What L'Oréal skincare products do you recommend for a daily routine?"
+            >
+              Skincare
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-prompt="Can you help me discover L'Oréal makeup essentials for an everyday look?"
+            >
+              Makeup
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-prompt="Which L'Oréal haircare line is best for hydration and repair?"
+            >
+              Haircare
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-prompt="How do I choose the right L'Oréal at-home hair color?"
+            >
+              Hair Color
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              data-prompt="Can you recommend signature fragrances and scent profiles?"
+            >
+              Fragrances
+            </button>
+          </nav>
+
+          <div class="header-actions">
+            <button type="button" id="resetChatBtn" class="btn-secondary">
+              New Consultation
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Editorial Content -->
+      <main class="main-content">
+        <!-- Prominent Brand Hero Header -->
+        <section class="brand-masthead" aria-labelledby="mainHeading">
+          <div class="masthead-logo-wrap">
+            <img
+              src="/assets/aistudio/loreal-logo_68f841fc.png"
+              alt="L'Oréal Paris"
+              class="masthead-logo"
+            />
+          </div>
+          <h1 id="mainHeading" class="hero-title">L'Oréal Beauty Assistant</h1>
+          <p class="hero-tagline">Because You're Worth It.</p>
+          <p class="hero-welcome">
+            Your virtual beauty concierge to discover L'Oréal skincare, makeup, haircare, hair color, and fragrances—and create personalized routines tailored just for you.
+          </p>
+        </section>
+
+        <!-- Consultation Workspace -->
+        <div class="consultation-layout">
+          <!-- Left Sidebar: Remembered Profile & Suggested Questions -->
+          <aside class="advisor-sidebar" aria-label="Consultation profile and topics">
+            <section class="sidebar-card profile-panel" aria-labelledby="profileHeading">
+              <div class="section-heading-row">
+                <h2 id="profileHeading" class="section-heading">Remembered Profile</h2>
+                <span class="profile-hint">Session memory</span>
+              </div>
+
+              <dl class="profile-list">
+                <div class="profile-row">
+                  <dt>Name</dt>
+                  <dd id="profileName" class="profile-value is-empty">Not shared yet</dd>
+                </div>
+                <div class="profile-row">
+                  <dt>Skin Type</dt>
+                  <dd id="profileSkin" class="profile-value is-empty">Not shared yet</dd>
+                </div>
+                <div class="profile-row">
+                  <dt>Hair Type</dt>
+                  <dd id="profileHair" class="profile-value is-empty">Not shared yet</dd>
+                </div>
+                <div class="profile-row">
+                  <dt>Preferences</dt>
+                  <dd id="profilePrefs" class="profile-value is-empty">Not shared yet</dd>
+                </div>
+                <div class="profile-row">
+                  <dt>Recommended</dt>
+                  <dd id="profileRecommended" class="profile-value is-empty">None yet</dd>
+                </div>
+              </dl>
+            </section>
+
+            <section class="sidebar-card topics-panel" aria-labelledby="topicsHeading">
+              <h2 id="topicsHeading" class="section-heading">Explore Beauty Topics</h2>
+              <div class="topic-list">
+                <button
+                  type="button"
+                  class="topic-btn"
+                  data-prompt="Build me a morning and evening L'Oréal skincare routine."
+                >
+                  Build a morning &amp; evening skincare routine
+                </button>
+                <button
+                  type="button"
+                  class="topic-btn"
+                  data-prompt="I have dry skin and want a lightweight glowing foundation recommendation."
+                >
+                  Find foundation for dry, glowing skin
+                </button>
+                <button
+                  type="button"
+                  class="topic-btn"
+                  data-prompt="My hair is frizzy and color-treated. Which L'Oréal haircare routine should I use?"
+                >
+                  Care for frizzy, color-treated hair
+                </button>
+                <button
+                  type="button"
+                  class="topic-btn"
+                  data-prompt="Help me pick a warm floral or woody fragrance for evening wear."
+                >
+                  Discover an evening fragrance profile
+                </button>
+              </div>
+            </section>
+          </aside>
+
+          <!-- Primary Chatbot Window -->
+          <section class="chat-section" aria-label="L'Oréal Beauty Assistant Chat">
+            <div class="chat-card">
+              <!-- Dark Luxury Header -->
+              <div class="chat-card-header">
+                <div class="chat-identity">
+                  <span class="advisor-monogram" aria-hidden="true">L</span>
+                  <div>
+                    <h2 class="chat-title">L'Oréal Beauty Advisor</h2>
+                    <div class="chat-status-row">
+                      <span class="online-indicator">
+                        <span class="online-dot" aria-hidden="true"></span>
+                        Online
+                      </span>
+                      <span class="status-separator" aria-hidden="true">·</span>
+                      <span class="chat-subtitle">Personalized Product &amp; Routine Guidance</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="session-counter" id="messageCount">1 message</span>
+              </div>
+
+              <!-- Latest User Question Display (updates on each submitted question) -->
+              <div id="latestQuestionBar" class="latest-question-bar" hidden>
+                <span class="latest-question-label">Latest Question</span>
+                <p id="latestQuestionText" class="latest-question-text"></p>
+              </div>
+
+              <!-- Light Conversation Background -->
+              <div
+                id="chatWindow"
+                class="chat-window"
+                role="log"
+                aria-live="polite"
+                aria-label="Conversation history"
+              >
+                <!-- Chat bubbles inserted here by script.js -->
+              </div>
+
+              <!-- Error Banner (hidden unless an error occurs) -->
+              <div id="errorBanner" class="error-banner" role="alert" hidden>
+                <div class="error-banner-text">
+                  <svg
+                    class="error-icon"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span id="errorMessageText">Something went wrong. Please try again.</span>
+                </div>
+                <div class="error-banner-actions">
+                  <button type="button" id="retryBtn" class="error-action-btn">Retry</button>
+                  <button
+                    type="button"
+                    id="dismissErrorBtn"
+                    class="error-dismiss-btn"
+                    aria-label="Dismiss error"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+
+              <!-- Elegant Input Field & Send Button -->
+              <form id="chatForm" class="chat-form" novalidate>
+                <label for="userInput" class="visually-hidden">
+                  Ask the L'Oréal Beauty Assistant a question
+                </label>
+                <input
+                  id="userInput"
+                  name="userInput"
+                  type="text"
+                  placeholder="Ask about skincare, makeup, haircare, fragrances, or your routine…"
+                  autocomplete="off"
+                />
+                <button type="submit" id="sendBtn" aria-label="Send message">
+                  <span class="send-btn-label">Send</span>
+                  <svg
+                    class="send-icon"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- Simple Elegant Footer -->
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <p class="footer-copy">
+            &copy; 2026 L'Oréal Beauty Assistant · Because You're Worth It.
+          </p>
+          <nav class="footer-nav" aria-label="Footer links">
+            <a href="#privacy" class="footer-link" data-footer-info="privacy">Privacy Policy</a>
+            <a href="#terms" class="footer-link" data-footer-info="terms">Terms of Use</a>
+            <a href="#contact" class="footer-link" data-footer-info="contact">Contact</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
