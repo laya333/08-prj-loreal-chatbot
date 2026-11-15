@@ -432,6 +432,16 @@ async function fetchAIResponse(userMessage) {
       body: payload
     };
 
+    const simpleCorsOptions = {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: payload
+    };
+
     const proxyOptions = {
       method: "POST",
       credentials: "same-origin",
@@ -447,12 +457,22 @@ async function fetchAIResponse(userMessage) {
       window.location.hostname.endsWith(".run.app");
 
     let response;
+    let lastError;
     try {
       response = await fetch(CLOUDFLARE_WORKER_URL.trim(), directOptions);
     } catch (networkError) {
+      lastError = networkError;
+
+      // Retry as a CORS simple request (no OPTIONS preflight) in case a network/proxy drops preflight
+      try {
+        response = await fetch(CLOUDFLARE_WORKER_URL.trim(), simpleCorsOptions);
+      } catch (simpleCorsError) {
+        lastError = simpleCorsError;
+      }
+
       // Only try the Vite dev preview proxy when running in local/AI Studio preview.
       // Use same-origin credentials so AI Studio preview auth cookies are preserved.
-      if (isPreviewHost) {
+      if (!response && isPreviewHost) {
         try {
           const proxyResponse = await fetch("/__worker-proxy/", proxyOptions);
           const contentType = proxyResponse.headers.get("content-type") || "";
@@ -465,10 +485,10 @@ async function fetchAIResponse(userMessage) {
       }
 
       if (!response) {
-        console.error("Cloudflare Worker fetch failed:", networkError);
-        const reason = networkError?.message ? ` (${networkError.message})` : "";
+        console.error("Cloudflare Worker fetch failed:", lastError);
+        const reason = lastError?.message ? ` (${lastError.message})` : "";
         throw new Error(
-          `Network error: Unable to reach the L'Oréal Beauty Assistant service${reason}. Please check that ${CLOUDFLARE_WORKER_URL.trim()} is reachable from your network and not blocked by a firewall or browser extension.`
+          `Network error: Unable to reach the L'Oréal Beauty Assistant service${reason}. Please check that ${CLOUDFLARE_WORKER_URL.trim()} is reachable from your network and not blocked by a firewall, VPN, Private DNS, or browser extension.`
         );
       }
     }
