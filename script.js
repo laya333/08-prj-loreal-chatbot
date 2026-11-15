@@ -417,17 +417,28 @@ async function fetchAIResponse(userMessage) {
 
   // Send conversation history to the class-hosted Cloudflare Worker
   if (isWorkerConfigured()) {
-    const requestOptions = {
+    const payload = JSON.stringify({
+      model: "gpt-4.1",
+      messages: conversationHistory
+    });
+
+    const directOptions = {
       method: "POST",
       mode: "cors",
       credentials: "omit",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: "gpt-4.1",
-        messages: conversationHistory
-      })
+      body: payload
+    };
+
+    const proxyOptions = {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: payload
     };
 
     const isPreviewHost =
@@ -437,13 +448,13 @@ async function fetchAIResponse(userMessage) {
 
     let response;
     try {
-      response = await fetch(CLOUDFLARE_WORKER_URL.trim(), requestOptions);
+      response = await fetch(CLOUDFLARE_WORKER_URL.trim(), directOptions);
     } catch (networkError) {
       // Only try the Vite dev preview proxy when running in local/AI Studio preview.
-      // Static hosts like GitHub Pages do not have a dev proxy route.
+      // Use same-origin credentials so AI Studio preview auth cookies are preserved.
       if (isPreviewHost) {
         try {
-          const proxyResponse = await fetch("/__worker-proxy/", requestOptions);
+          const proxyResponse = await fetch("/__worker-proxy/", proxyOptions);
           const contentType = proxyResponse.headers.get("content-type") || "";
           if (proxyResponse.ok || contentType.includes("application/json")) {
             response = proxyResponse;
