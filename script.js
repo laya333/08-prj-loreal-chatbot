@@ -419,6 +419,8 @@ async function fetchAIResponse(userMessage) {
   if (isWorkerConfigured()) {
     const requestOptions = {
       method: "POST",
+      mode: "cors",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json"
       },
@@ -428,27 +430,34 @@ async function fetchAIResponse(userMessage) {
       })
     };
 
+    const isPreviewHost =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname.endsWith(".run.app");
+
     let response;
     try {
       response = await fetch(CLOUDFLARE_WORKER_URL.trim(), requestOptions);
     } catch (networkError) {
-      // In preview iframes or restricted networks where *.workers.dev is blocked,
-      // fall back to the local dev preview proxy routing to the same Cloudflare Worker.
-      try {
-        const proxyResponse = await fetch("/__worker-proxy/", requestOptions);
-        const contentType = proxyResponse.headers.get("content-type") || "";
-        if (proxyResponse.ok || contentType.includes("application/json")) {
-          response = proxyResponse;
+      // Only try the Vite dev preview proxy when running in local/AI Studio preview.
+      // Static hosts like GitHub Pages do not have a dev proxy route.
+      if (isPreviewHost) {
+        try {
+          const proxyResponse = await fetch("/__worker-proxy/", requestOptions);
+          const contentType = proxyResponse.headers.get("content-type") || "";
+          if (proxyResponse.ok || contentType.includes("application/json")) {
+            response = proxyResponse;
+          }
+        } catch (_proxyError) {
+          // Ignore fallback failure and report the original network error below
         }
-      } catch (_proxyError) {
-        // Ignore fallback failure and report the original network error below
       }
 
       if (!response) {
         console.error("Cloudflare Worker fetch failed:", networkError);
         const reason = networkError?.message ? ` (${networkError.message})` : "";
         throw new Error(
-          `Network error: Unable to reach the L'Oréal Beauty Assistant service${reason}. Please check your connection and Worker URL.`
+          `Network error: Unable to reach the L'Oréal Beauty Assistant service${reason}. Please check that ${CLOUDFLARE_WORKER_URL.trim()} is reachable from your network and not blocked by a firewall or browser extension.`
         );
       }
     }

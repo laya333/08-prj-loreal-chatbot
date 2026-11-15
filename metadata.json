@@ -2,5 +2,7 @@
   "name": "L'Oréal Beauty Assistant",
   "description": "An elegant L'Oréal Beauty Assistant chatbot for discovering skincare, makeup, haircare, hair color, fragrances, and personalized beauty routines.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
